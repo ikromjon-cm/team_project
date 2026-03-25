@@ -1,0 +1,332 @@
+.dashboard {
+  padding: 0 32px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.dashheader h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.statgrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.statcard {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 18px 20px;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+  border: 1px solid #eef2f7;
+}
+
+.stattop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  gap: 12px;
+}
+
+.statlabel {
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.statvalue {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.staticon {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+}
+
+.staticon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.staticon.lav {
+  background: #eef0ff;
+  color: #7c7cff;
+}
+
+.staticon.sun {
+  background: #fff6dd;
+  color: #f6b43b;
+}
+
+.staticon.mint {
+  background: #e2f7ef;
+  color: #34c38f;
+}
+
+.staticon.peach {
+  background: #ffe8dd;
+  color: #ff8c5b;
+}
+
+.stattrend {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.stattrend.up {
+  color: #10b981;
+}
+
+.stattrend.down {
+  color: #ef4444;
+}
+
+.trendarrow {
+  font-size: 12px;
+}
+
+.trendvalue {
+  font-weight: 600;
+}
+
+.trendnote {
+  color: #94a3b8;
+}
+
+.panel {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 20px 22px;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.06);
+  border: 1px solid #eef2f7;
+}
+
+.panelhead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.panelhead h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.panelfilter {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.chartshell {
+  position: relative;
+  padding-bottom: 26px;
+}
+
+.chartgrid {
+  display: grid;
+  gap: 18px;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 8px;
+}
+
+.chartrow {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  align-items: center;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.chartline {
+  height: 1px;
+  background: #eef2f7;
+  width: 100%;
+}
+
+.chart {
+  position: absolute;
+  inset: 0 0 26px 40px;
+  width: calc(100% - 40px);
+  height: calc(100% - 26px);
+  z-index: 2;
+}
+
+.chartlinepath {
+  stroke: #4f7cff;
+  stroke-width: 2.2;
+}
+
+.chartdot {
+  fill: #4f7cff;
+  stroke: #ffffff;
+  stroke-width: 2;
+}
+
+.charttip {
+  position: absolute;
+  top: 38px;
+  left: 44%;
+  transform: translateX(-50%);
+  background: #4f7cff;
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  z-index: 3;
+}
+
+.charttip::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px 6px 0 6px;
+  border-style: solid;
+  border-color: #4f7cff transparent transparent transparent;
+}
+
+.chartaxis {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 8px;
+  font-size: 12px;
+  color: #94a3b8;
+  padding-left: 40px;
+}
+
+.dealstable {
+  display: grid;
+  gap: 12px;
+}
+
+.dealsrow {
+  display: grid;
+  grid-template-columns: 1.4fr 1.4fr 1.4fr 0.7fr 0.7fr 0.7fr;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: #475569;
+  padding: 10px 12px;
+  border-radius: 12px;
+}
+
+.dealshead {
+  background: #f8fafc;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.dealsrow:not(.dealshead) {
+  background: #ffffff;
+  border: 1px solid #eef2f7;
+}
+
+.dealproduct {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+
+.dealavatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #f1f4ff;
+  color: #4f7cff;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+}
+
+.dealstatus {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 12px;
+  text-align: center;
+  width: fit-content;
+}
+
+.dealstatus.delivered {
+  background: #d1fae5;
+  color: #059669;
+}
+
+.dealstatus.pending {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.dealstatus.shipped {
+  background: #e0e7ff;
+  color: #4f46e5;
+}
+
+@media (max-width: 1200px) {
+  .statgrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dealsrow {
+    grid-template-columns: 1.6fr 1.2fr 1.2fr 0.6fr 0.7fr 0.7fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .dashboard {
+    padding: 0 20px 28px;
+  }
+
+  .statgrid {
+    grid-template-columns: 1fr;
+  }
+
+  .chart {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: 220px;
+    margin-top: 12px;
+  }
+
+  .chartgrid {
+    margin-bottom: 0;
+  }
+
+  .chartaxis {
+    padding-left: 0;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .dealsrow {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .dealsrow span,
+  .dealproduct {
+    justify-content: flex-start;
+  }
+}

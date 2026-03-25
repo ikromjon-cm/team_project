@@ -1,0 +1,124 @@
+.inbox__wrapper {
+  display: flex;
+  gap: 20px;
+  background-color: #f8fafc;
+  padding: 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+
+.inbox__sidebar {
+  width: 260px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.inbox__sidebar--compose-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #5d87ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  margin-bottom: 25px;
+  cursor: pointer;
+}
+
+.inbox__sidebar--title {
+  font-size: 14px;
+  color: #333;
+  margin: 20px 0 10px 0;
+}
+
+.inbox__sidebar--item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-radius: 6px;
+  color: #5a6a85;
+  font-size: 14px;
+}
+
+
+
+
+.label-dot--primary { border-color: #13deb9; }
+.label-dot--social { border-color: #5d87ff; }
+.label-dot--work { border-color: #ffae1f; }
+.label-dot--friends { border-color: #fa896b; }
+
+
+.inbox__content {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #ebf1f6;
+}
+
+.inbox__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.inbox__header--search-bar {
+  width: 300px;
+  padding: 10px 15px;
+  border-radius: 20px;
+  border: 1px solid #dfe5ef;
+  background-color: #f6f9fc;
+}
+
+.inbox__header--icons {
+  display: flex;
+  gap: 15px;
+  color: #5a6a85;
+}
+
+
+.inbox__list--row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 10px;
+  border-bottom: 1px solid #f2f6fa;
+  font-size: 14px;
+}
+
+.inbox__list--sender-name {
+  width: 140px;
+  font-weight: 600;
+  color: #2a3547;
+}
+
+.inbox__list--tag {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.inbox__list--tag-primary { background: #e6fffa; color: #13deb9; }
+.inbox__list--tag-social { background: #ecf2ff; color: #5d87ff; }
+.inbox__list--tag-work { background: #fef5e5; color: #ffae1f; }
+.inbox__list--tag-friends { background: #fdede8; color: #fa896b; }
+
+.inbox__list--subject-text {
+  flex: 1;
+  color: #5a6a85;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.inbox__list--timestamp {
+  color: #7c8fac;
+  font-size: 12px;
+  width: 70px;
+  text-align: right;
+}

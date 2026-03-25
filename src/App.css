@@ -1,0 +1,13 @@
+.appshell {
+  display: flex;
+  min-height: 100vh;
+  background: #f4f6fb;
+  color: #0f172a;
+}
+
+.appmain {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
