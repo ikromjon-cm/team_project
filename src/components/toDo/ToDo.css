@@ -1,0 +1,147 @@
+.todo-page {
+  padding: 30px;
+  background-color: #f5f6fa;
+  min-height: calc(100vh - 70px);
+  font-family: 'Inter', sans-serif;
+  box-sizing: border-box;
+}
+
+.todo-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.add-new-btn {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.add-new-btn:hover {
+  background: #2563eb;
+}
+
+.todo-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 16px 24px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.todo-item:hover {
+  border-color: #cbd5e1;
+}
+
+.todo-item.active {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+.todo-item.completed .todo-text {
+  text-decoration: line-through;
+  color: #94a3b8;
+}
+
+.todo-item.active.completed .todo-text {
+  color: #bfdbfe;
+}
+
+.todo-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.todo-radio {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: white;
+  padding: 2px;
+}
+
+.todo-radio.checked {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: white;
+}
+
+.todo-item.active .todo-radio {
+  border-color: white;
+  background: transparent;
+}
+
+.todo-item.active .todo-radio.checked {
+  background: white;
+  color: #3b82f6;
+}
+
+.todo-text {
+  font-weight: 500;
+  font-size: 15px;
+  color: #1e293b;
+}
+
+.todo-item.active .todo-text {
+  color: white;
+}
+
+.todo-right {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.todo-icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+
+.todo-icon-btn:hover {
+  color: #475569;
+}
+
+.todo-icon-btn.starred {
+  color: #eab308;
+}
+
+.todo-item.active .todo-icon-btn {
+  color: #93c5fd;
+}
+
+.todo-item.active .todo-icon-btn:hover {
+  color: white;
+}
+
+.todo-item.active .todo-icon-btn.starred {
+  color: #fde047;
+}

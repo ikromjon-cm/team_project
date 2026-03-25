@@ -1,0 +1,80 @@
+.contact-page {
+  padding: 30px;
+  background-color: #f5f6fa;
+  min-height: calc(100vh - 70px);
+  font-family: 'Inter', sans-serif;
+  box-sizing: border-box;
+}
+
+.contact-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.contact-card {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.contact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.06);
+}
+
+.contact-img-container {
+  height: 180px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.contact-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.contact-info {
+  padding: 20px 20px 10px;
+}
+
+.contact-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 4px;
+}
+
+.contact-email {
+  font-size: 13px;
+  color: #64748b;
+  margin-bottom: 20px;
+}
+
+.contact-msg-btn {
+  background: transparent;
+  color: #3b82f6;
+  border: 1px solid #3b82f6;
+  padding: 8px 24px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 24px;
+  transition: all 0.2s;
+}
+
+.contact-msg-btn:hover {
+  background: #eff6ff;
+}
