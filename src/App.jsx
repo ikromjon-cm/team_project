@@ -1,17 +1,19 @@
 import React from 'react';
-import Login from './components/login/Login';
+import './App.css';
 import Header from './components/header/Header';
-import Sidebar from './components/sidebar/Sidebar'; 
-import OrderList from './components/orderList/OrderList';
+import Sidebar from './components/sidebar/Sidebar';
+import Dashboard from './components/dashboard/Dashboard';
 
 const App = () => {
   return (
-    <div>
-      <Header/>
-      <Sidebar/>
-      <OrderList/>
+    <div className="appshell">
+      <Sidebar />
+      <div className="appmain">
+        <Header />
+        <Dashboard />
+      </div>
     </div>
   );
-}
+};
 
 export default App;
