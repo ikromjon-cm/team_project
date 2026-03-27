@@ -1,173 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './OrderList.css';
 import { orderListPageData } from '../data/OrderList';
-
-const FilterIcon = () => (
-  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-    <path
-      d="M4 5.5c0-.83.67-1.5 1.5-1.5h13a1.5 1.5 0 1 1 0 3h-13C4.67 7 4 6.33 4 5.5Zm4 6c0-.83.67-1.5 1.5-1.5h5a1.5 1.5 0 1 1 0 3h-5c-.83 0-1.5-.67-1.5-1.5Zm2 6c0-.83.67-1.5 1.5-1.5h1a1.5 1.5 0 1 1 0 3h-1c-.83 0-1.5-.67-1.5-1.5Z"
-      fill="currentColor"
-    />
-  </svg>
-);
-
-const ChevronDownIcon = () => (
-  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-    <path
-      d="M7.47 8.97a.75.75 0 0 1 1.06 0L12 12.44l3.47-3.47a.75.75 0 1 1 1.06 1.06l-4 4a.75.75 0 0 1-1.06 0l-4-4a.75.75 0 0 1 0-1.06Z"
-      fill="currentColor"
-    />
-  </svg>
-);
-
-const ChevronLeftIcon = () => (
-  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-    <path
-      d="M14.53 6.47a.75.75 0 0 1 0 1.06L10.06 12l4.47 4.47a.75.75 0 1 1-1.06 1.06l-5-5a.75.75 0 0 1 0-1.06l5-5a.75.75 0 0 1 1.06 0Z"
-      fill="currentColor"
-    />
-  </svg>
-);
-
-const ChevronRightIcon = () => (
-  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-    <path
-      d="M9.47 17.53a.75.75 0 0 1 0-1.06L13.94 12 9.47 7.53a.75.75 0 0 1 1.06-1.06l5 5a.75.75 0 0 1 0 1.06l-5 5a.75.75 0 0 1-1.06 0Z"
-      fill="currentColor"
-    />
-  </svg>
-);
-
-const ResetIcon = () => (
-  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-    <path
-      d="M12 5a7 7 0 1 1-6.99 7.46.75.75 0 0 1 1.5-.16A5.5 5.5 0 1 0 12 6.5h-.67l1.2 1.2a.75.75 0 1 1-1.06 1.06L8.98 6.3a.75.75 0 0 1 0-1.06l2.5-2.5a.75.75 0 0 1 1.06 1.06L11.31 5H12Z"
-      fill="currentColor"
-    />
-  </svg>
-);
-
-const StatusBadge = ({ value, statusClasses }) => (
-  <span className={`order-list-status-badge ${statusClasses[value] ?? ''}`}>{value}</span>
-);
-
-const OrderListTable = ({ headers, rows, statusClasses }) => (
-  <div className="order-list-table-shell">
-    <div className="order-list-table-scroll">
-      <table className="order-list-table">
-        <thead>
-          <tr>
-            {headers.map((header) => (
-              <th key={header}>{header}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.length === 0 ? (
-            <tr>
-              <td colSpan={headers.length} className="order-list-empty-cell">
-                No orders found for selected filters.
-              </td>
-            </tr>
-          ) : (
-            rows.map((order) => (
-              <tr key={order.id}>
-                <td>{order.id}</td>
-                <td>{order.name}</td>
-                <td>{order.address}</td>
-                <td>{order.date}</td>
-                <td>{order.type}</td>
-                <td>
-                  <StatusBadge value={order.status} statusClasses={statusClasses} />
-                </td>
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>
-    </div>
-  </div>
-);
-
-const DatePopup = ({ calendar, pendingDate, onPickDate, onApply }) => (
-  <div className="order-list-popup order-list-popup-date" role="dialog" aria-modal="false">
-    <div className="order-list-calendar-head">
-      <p>{calendar.monthLabel}</p>
-      <div className="order-list-calendar-nav">
-        <button type="button" className="order-list-calendar-nav-btn" disabled aria-label="Previous month">
-          <ChevronLeftIcon />
-        </button>
-        <button type="button" className="order-list-calendar-nav-btn" disabled aria-label="Next month">
-          <ChevronRightIcon />
-        </button>
-      </div>
-    </div>
-    <div className="order-list-calendar-grid order-list-calendar-weekdays">
-      {calendar.weekdays.map((weekday) => (
-        <span key={weekday}>{weekday}</span>
-      ))}
-    </div>
-    <div className="order-list-calendar-grid order-list-calendar-days">
-      {calendar.days.map((day) => {
-        const className = [
-          'order-list-day-cell',
-          day.inCurrentMonth ? '' : 'is-muted',
-          pendingDate === day.value ? 'is-selected' : '',
-        ]
-          .filter(Boolean)
-          .join(' ');
-
-        return (
-          <button
-            key={day.value}
-            type="button"
-            className={className}
-            onClick={() => onPickDate(day.value)}
-          >
-            {day.day}
-          </button>
-        );
-      })}
-    </div>
-    <p className="order-list-popup-help">{calendar.helperText}</p>
-    <button type="button" className="order-list-apply-btn" onClick={onApply}>
-      Apply Now
-    </button>
-  </div>
-);
-
-const OptionPopup = ({
-  title,
-  helperText,
-  options,
-  pendingValues,
-  onToggle,
-  onApply,
-  popupClassName,
-}) => (
-  <div className={`order-list-popup ${popupClassName}`} role="dialog" aria-modal="false">
-    <p className="order-list-popup-title">{title}</p>
-    <div className="order-list-chip-grid">
-      {options.map((option) => {
-        const isActive = pendingValues.includes(option);
-        return (
-          <button
-            key={option}
-            type="button"
-            className={`order-list-chip ${isActive ? 'is-active' : ''}`}
-            onClick={() => onToggle(option)}
-          >
-            {option}
-          </button>
-        );
-      })}
-    </div>
-    <p className="order-list-popup-help">{helperText}</p>
-    <button type="button" className="order-list-apply-btn" onClick={onApply}>
-      Apply Now
-    </button>
-  </div>
-);
 
 const OrderList = () => {
   const {
@@ -181,102 +14,109 @@ const OrderList = () => {
     dateControls,
   } = orderListPageData;
 
-  const [openFilter, setOpenFilter] = useState(null);
+  const [openFilter, setOpenFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [appliedDate, setAppliedDate] = useState('');
-  const [appliedTypes, setAppliedTypes] = useState([]);
-  const [appliedStatuses, setAppliedStatuses] = useState([]);
-  const [pendingDate, setPendingDate] = useState('');
-  const [pendingTypes, setPendingTypes] = useState([]);
-  const [pendingStatuses, setPendingStatuses] = useState([]);
+
+  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedTypes, setSelectedTypes] = useState([]);
+  const [selectedStatuses, setSelectedStatuses] = useState([]);
+
+  const [tempDate, setTempDate] = useState('');
+  const [tempTypes, setTempTypes] = useState([]);
+  const [tempStatuses, setTempStatuses] = useState([]);
 
   useEffect(() => {
-    const closeOnEscape = (event) => {
+    const onEscape = (event) => {
       if (event.key === 'Escape') {
-        setOpenFilter(null);
+        setOpenFilter('');
       }
     };
 
-    window.addEventListener('keydown', closeOnEscape);
-    return () => window.removeEventListener('keydown', closeOnEscape);
+    window.addEventListener('keydown', onEscape);
+    return () => window.removeEventListener('keydown', onEscape);
   }, []);
 
-  const filteredOrders = useMemo(() => orders, [orders]);
-
-  const totalPages = Math.max(1, Math.ceil(filteredOrders.length / pageSize));
-  const currentVisiblePage = Math.min(currentPage, totalPages);
-
-  const visibleOrders = useMemo(
-    () => filteredOrders.slice((currentVisiblePage - 1) * pageSize, currentVisiblePage * pageSize),
-    [filteredOrders, currentVisiblePage, pageSize]
-  );
-
-  const summaryStart = filteredOrders.length === 0 ? 0 : (currentVisiblePage - 1) * pageSize + 1;
-  const summaryEnd = Math.min(currentVisiblePage * pageSize, filteredOrders.length);
-
-  const openFilterMenu = (target) => {
-    if (openFilter === target) {
-      setOpenFilter(null);
+  const toggleFilter = (filterName) => {
+    if (openFilter === filterName) {
+      setOpenFilter('');
       return;
     }
 
-    if (target === 'date') {
-      setPendingDate(appliedDate);
+    if (filterName === 'date') {
+      setTempDate(selectedDate);
     }
 
-    if (target === 'type') {
-      setPendingTypes(appliedTypes);
+    if (filterName === 'type') {
+      setTempTypes(selectedTypes);
     }
 
-    if (target === 'status') {
-      setPendingStatuses(appliedStatuses);
+    if (filterName === 'status') {
+      setTempStatuses(selectedStatuses);
     }
 
-    setOpenFilter(target);
+    setOpenFilter(filterName);
   };
 
-  const togglePendingType = (typeName) => {
-    setPendingTypes((prev) =>
-      prev.includes(typeName) ? prev.filter((item) => item !== typeName) : [...prev, typeName]
-    );
+  const toggleTempType = (typeName) => {
+    if (tempTypes.includes(typeName)) {
+      setTempTypes(tempTypes.filter((item) => item !== typeName));
+      return;
+    }
+    setTempTypes([...tempTypes, typeName]);
   };
 
-  const togglePendingStatus = (statusName) => {
-    setPendingStatuses((prev) =>
-      prev.includes(statusName) ? prev.filter((item) => item !== statusName) : [...prev, statusName]
-    );
+  const toggleTempStatus = (statusName) => {
+    if (tempStatuses.includes(statusName)) {
+      setTempStatuses(tempStatuses.filter((item) => item !== statusName));
+      return;
+    }
+    setTempStatuses([...tempStatuses, statusName]);
   };
 
-  const applyDateFilter = () => {
-    setAppliedDate(pendingDate);
+  const applyDate = () => {
+    setSelectedDate(tempDate);
     setCurrentPage(1);
-    setOpenFilter(null);
+    setOpenFilter('');
   };
 
-  const applyTypeFilter = () => {
-    setAppliedTypes(pendingTypes);
+  const applyType = () => {
+    setSelectedTypes(tempTypes);
     setCurrentPage(1);
-    setOpenFilter(null);
+    setOpenFilter('');
   };
 
-  const applyStatusFilter = () => {
-    setAppliedStatuses(pendingStatuses);
+  const applyStatus = () => {
+    setSelectedStatuses(tempStatuses);
     setCurrentPage(1);
-    setOpenFilter(null);
+    setOpenFilter('');
   };
 
   const resetFilters = () => {
-    setAppliedDate('');
-    setAppliedTypes([]);
-    setAppliedStatuses([]);
-    setPendingDate('');
-    setPendingTypes([]);
-    setPendingStatuses([]);
+    setSelectedDate('');
+    setSelectedTypes([]);
+    setSelectedStatuses([]);
+    setTempDate('');
+    setTempTypes([]);
+    setTempStatuses([]);
     setCurrentPage(1);
-    setOpenFilter(null);
+    setOpenFilter('');
   };
 
-  const isDateFiltered = Boolean(appliedDate);
+  const filteredOrders = orders.filter((order) => {
+    const dateMatch = selectedDate === '' || order.calendarDate === selectedDate;
+    const typeMatch = selectedTypes.length === 0 || selectedTypes.includes(order.orderType);
+    const statusMatch = selectedStatuses.length === 0 || selectedStatuses.includes(order.status);
+
+    return dateMatch && typeMatch && statusMatch;
+  });
+
+  const totalPages = Math.max(1, Math.ceil(filteredOrders.length / pageSize));
+  const safeCurrentPage = Math.min(currentPage, totalPages);
+  const startIndex = (safeCurrentPage - 1) * pageSize;
+  const visibleOrders = filteredOrders.slice(startIndex, startIndex + pageSize);
+  const summaryStart = filteredOrders.length === 0 ? 0 : startIndex + 1;
+  const summaryEnd = Math.min(startIndex + pageSize, filteredOrders.length);
+  const isDateFiltered = selectedDate !== '';
 
   return (
     <section className="order-list-page">
@@ -284,7 +124,9 @@ const OrderList = () => {
 
       <div className="order-list-filter-bar">
         <div className="order-list-filter-cell order-list-filter-icon">
-          <FilterIcon />
+          <span className="order-list-icon order-list-icon-filter" aria-hidden="true">
+            |||
+          </span>
         </div>
 
         <div className="order-list-filter-cell order-list-filter-label">{filters.label}</div>
@@ -293,84 +135,197 @@ const OrderList = () => {
           <button
             type="button"
             className={`order-list-filter-trigger ${openFilter === 'date' ? 'is-open' : ''}`}
-            onClick={() => openFilterMenu('date')}
+            onClick={() => toggleFilter('date')}
           >
-            <span>{appliedDate || filters.datePlaceholder}</span>
-            <ChevronDownIcon />
+            <span>{selectedDate || filters.datePlaceholder}</span>
+            <span className="order-list-icon" aria-hidden="true">
+              v
+            </span>
           </button>
-          {openFilter === 'date' ? (
-            <DatePopup
-              calendar={filters.calendar}
-              pendingDate={pendingDate}
-              onPickDate={setPendingDate}
-              onApply={applyDateFilter}
-            />
-          ) : null}
+
+          {openFilter === 'date' && (
+            <div className="order-list-popup order-list-popup-date">
+              <div className="order-list-calendar-head">
+                <p>{filters.calendar.monthLabel}</p>
+                <div className="order-list-calendar-nav">
+                  <button type="button" className="order-list-calendar-nav-btn" disabled aria-label="Previous month">
+                    <span className="order-list-icon" aria-hidden="true">
+                      {'<'}
+                    </span>
+                  </button>
+                  <button type="button" className="order-list-calendar-nav-btn" disabled aria-label="Next month">
+                    <span className="order-list-icon" aria-hidden="true">
+                      {'>'}
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+              <div className="order-list-calendar-grid order-list-calendar-weekdays">
+                {filters.calendar.weekdays.map((weekday) => (
+                  <span key={weekday}>{weekday}</span>
+                ))}
+              </div>
+
+              <div className="order-list-calendar-grid order-list-calendar-days">
+                {filters.calendar.days.map((day) => {
+                  const isSelected = tempDate === day.value;
+                  const className = `order-list-day-cell${day.inCurrentMonth ? '' : ' is-muted'}${
+                    isSelected ? ' is-selected' : ''
+                  }`;
+
+                  return (
+                    <button
+                      key={day.value}
+                      type="button"
+                      className={className}
+                      onClick={() => setTempDate(day.value)}
+                    >
+                      {day.day}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <p className="order-list-popup-help">{filters.calendar.helperText}</p>
+              <button type="button" className="order-list-apply-btn" onClick={applyDate}>
+                Apply Now
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="order-list-filter-cell order-list-filter-menu">
           <button
             type="button"
             className={`order-list-filter-trigger ${openFilter === 'type' ? 'is-open' : ''}`}
-            onClick={() => openFilterMenu('type')}
+            onClick={() => toggleFilter('type')}
           >
-            <span>{appliedTypes.length > 0 ? `${appliedTypes.length} Selected` : filters.typePlaceholder}</span>
-            <ChevronDownIcon />
+            <span>{selectedTypes.length > 0 ? `${selectedTypes.length} Selected` : filters.typePlaceholder}</span>
+            <span className="order-list-icon" aria-hidden="true">
+              v
+            </span>
           </button>
-          {openFilter === 'type' ? (
-            <OptionPopup
-              title={filters.typeTitle}
-              helperText={filters.typeHelper}
-              options={filters.typeOptions}
-              pendingValues={pendingTypes}
-              onToggle={togglePendingType}
-              onApply={applyTypeFilter}
-              popupClassName="order-list-popup-type"
-            />
-          ) : null}
+
+          {openFilter === 'type' && (
+            <div className="order-list-popup order-list-popup-type">
+              <p className="order-list-popup-title">{filters.typeTitle}</p>
+              <div className="order-list-chip-grid">
+                {filters.typeOptions.map((typeOption) => (
+                  <button
+                    key={typeOption}
+                    type="button"
+                    className={`order-list-chip ${tempTypes.includes(typeOption) ? 'is-active' : ''}`}
+                    onClick={() => toggleTempType(typeOption)}
+                  >
+                    {typeOption}
+                  </button>
+                ))}
+              </div>
+              <p className="order-list-popup-help">{filters.typeHelper}</p>
+              <button type="button" className="order-list-apply-btn" onClick={applyType}>
+                Apply Now
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="order-list-filter-cell order-list-filter-menu">
           <button
             type="button"
             className={`order-list-filter-trigger ${openFilter === 'status' ? 'is-open' : ''}`}
-            onClick={() => openFilterMenu('status')}
+            onClick={() => toggleFilter('status')}
           >
             <span>
-              {appliedStatuses.length > 0 ? `${appliedStatuses.length} Selected` : filters.statusPlaceholder}
+              {selectedStatuses.length > 0 ? `${selectedStatuses.length} Selected` : filters.statusPlaceholder}
             </span>
-            <ChevronDownIcon />
+            <span className="order-list-icon" aria-hidden="true">
+              v
+            </span>
           </button>
-          {openFilter === 'status' ? (
-            <OptionPopup
-              title={filters.statusTitle}
-              helperText={filters.statusHelper}
-              options={filters.statusOptions}
-              pendingValues={pendingStatuses}
-              onToggle={togglePendingStatus}
-              onApply={applyStatusFilter}
-              popupClassName="order-list-popup-status"
-            />
-          ) : null}
+
+          {openFilter === 'status' && (
+            <div className="order-list-popup order-list-popup-status">
+              <p className="order-list-popup-title">{filters.statusTitle}</p>
+              <div className="order-list-chip-grid">
+                {filters.statusOptions.map((statusOption) => (
+                  <button
+                    key={statusOption}
+                    type="button"
+                    className={`order-list-chip ${tempStatuses.includes(statusOption) ? 'is-active' : ''}`}
+                    onClick={() => toggleTempStatus(statusOption)}
+                  >
+                    {statusOption}
+                  </button>
+                ))}
+              </div>
+              <p className="order-list-popup-help">{filters.statusHelper}</p>
+              <button type="button" className="order-list-apply-btn" onClick={applyStatus}>
+                Apply Now
+              </button>
+            </div>
+          )}
         </div>
 
         <button type="button" className="order-list-filter-cell order-list-reset-btn" onClick={resetFilters}>
-          <ResetIcon />
+          <span className="order-list-icon" aria-hidden="true">
+            o
+          </span>
           <span>{filters.resetLabel}</span>
         </button>
       </div>
 
-      <OrderListTable headers={tableHeaders} rows={visibleOrders} statusClasses={statusClasses} />
+      <div className="order-list-table-shell">
+        <div className="order-list-table-scroll">
+          <table className="order-list-table">
+            <thead>
+              <tr>
+                {tableHeaders.map((header) => (
+                  <th key={header}>{header}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {visibleOrders.length === 0 ? (
+                <tr>
+                  <td colSpan={tableHeaders.length} className="order-list-empty-cell">
+                    No orders found for selected filters.
+                  </td>
+                </tr>
+              ) : (
+                visibleOrders.map((order) => (
+                  <tr key={order.id}>
+                    <td>{order.id}</td>
+                    <td>{order.name}</td>
+                    <td>{order.address}</td>
+                    <td>{order.date}</td>
+                    <td>{order.type}</td>
+                    <td>
+                      <span className={`order-list-status-badge ${statusClasses[order.status] || ''}`}>
+                        {order.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
 
       {isDateFiltered ? (
         <div className="order-list-date-footer">
           <button type="button" className="order-list-date-nav-btn-text">
-            <ChevronLeftIcon />
+            <span className="order-list-icon" aria-hidden="true">
+              {'<'}
+            </span>
             <span>{dateControls.prev}</span>
           </button>
           <button type="button" className="order-list-date-nav-btn-text">
             <span>{dateControls.next}</span>
-            <ChevronRightIcon />
+            <span className="order-list-icon" aria-hidden="true">
+              {'>'}
+            </span>
           </button>
         </div>
       ) : (
@@ -383,20 +338,24 @@ const OrderList = () => {
             <button
               type="button"
               className="order-list-page-btn"
-              onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
-              disabled={currentVisiblePage === 1}
+              onClick={() => setCurrentPage(Math.max(1, safeCurrentPage - 1))}
+              disabled={safeCurrentPage === 1}
               aria-label="Previous page"
             >
-              <ChevronLeftIcon />
+              <span className="order-list-icon" aria-hidden="true">
+                {'<'}
+              </span>
             </button>
             <button
               type="button"
               className="order-list-page-btn"
-              onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
-              disabled={currentVisiblePage === totalPages}
+              onClick={() => setCurrentPage(Math.min(totalPages, safeCurrentPage + 1))}
+              disabled={safeCurrentPage === totalPages}
               aria-label="Next page"
             >
-              <ChevronRightIcon />
+              <span className="order-list-icon" aria-hidden="true">
+                {'>'}
+              </span>
             </button>
           </div>
         </div>

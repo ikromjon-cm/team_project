@@ -36,10 +36,22 @@
   .order-list-filter-cell:last-child {
     border-right: 0;
   }
-  
-  .order-list-filter-icon svg {
+
+  .order-list-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     width: 18px;
     height: 18px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  
+  .order-list-filter-icon .order-list-icon {
+    font-size: 0.68rem;
+    letter-spacing: -1px;
     color: #202224;
   }
   
@@ -87,11 +99,8 @@
     white-space: nowrap;
   }
   
-  .order-list-filter-trigger svg {
-    width: 18px;
-    height: 18px;
+  .order-list-filter-trigger .order-list-icon {
     color: #202224;
-    flex-shrink: 0;
   }
   
   .order-list-reset-btn {
@@ -110,9 +119,10 @@
     background: #fff7fa;
   }
   
-  .order-list-reset-btn svg {
+  .order-list-reset-btn .order-list-icon {
     width: 16px;
     height: 16px;
+    font-size: 0.88rem;
   }
   
   .order-list-popup {
@@ -186,9 +196,10 @@
     opacity: 0.9;
   }
   
-  .order-list-calendar-nav-btn svg {
+  .order-list-calendar-nav-btn .order-list-icon {
     width: 14px;
     height: 14px;
+    font-size: 0.78rem;
   }
   
   .order-list-calendar-grid {
@@ -420,9 +431,10 @@
     cursor: not-allowed;
   }
   
-  .order-list-page-btn svg {
+  .order-list-page-btn .order-list-icon {
     width: 16px;
     height: 16px;
+    font-size: 0.86rem;
   }
   
   .order-list-date-footer {
@@ -447,8 +459,9 @@
     font-weight: 700;
   }
   
-  .order-list-date-nav-btn-text svg {
+  .order-list-date-nav-btn-text .order-list-icon {
     width: 14px;
     height: 14px;
+    font-size: 0.78rem;
   }
   
